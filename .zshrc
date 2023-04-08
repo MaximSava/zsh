@@ -1,14 +1,54 @@
-# If you come from bash you might have to change your $PATH.
+export EDITOR=vim
+export VISUAL=vim
+export ZSH_PLUGINS_FOLDER='/home/msava/my-files/zsh'
+
+# keybinds
+bindkey '^ ' autosuggest-accept
+
+# Git-prompt zsh plugin
+#ZSH_GIT_PROMPT_ENABLE_SECONDARY=1
+ZSH_GIT_PROMPT_SHOW_UPSTREAM=no
+ZSH_GIT_PROMPT_SHOW_STASH=1
+ZSH_GIT_PROMPT_FORCE_BLANK=1
+
+# Theming variables for primary prompt
+ZSH_THEME_GIT_PROMPT_PREFIX="["
+ZSH_THEME_GIT_PROMPT_SUFFIX="] "
+ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
+ZSH_THEME_GIT_PROMPT_DETACHED="%{$fg_bold[cyan]%}:"
+ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[magenta]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_SYMBOL="%{$fg_bold[yellow]%}⟳ "
+ZSH_THEME_GIT_PROMPT_UPSTREAM_NO_TRACKING="%{$fg_bold[red]%}!"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[red]%}(%{$fg[yellow]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[red]%})"
+ZSH_THEME_GIT_PROMPT_BEHIND="↓"
+ZSH_THEME_GIT_PROMPT_AHEAD="↑"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}✖"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}●"
+ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}✚"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="…"
+ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%}⚑"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔"
+
+
+
+# Autocompletion plugin settings
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+fpath=(path/to/zsh-completions/src $fpath)
+compdef _gnu_generic
+
+ #If you come from bash you might have to change your $PATH.
+ 
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+#export ZSH="$HOME/<path to file>"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,23 +110,20 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git
-	ansible
-        aws
-	dnf
-	fzf
-	git
-	git-extras
-	git-auto-fetch
-        jira
-	systemd
-	terraform
-	z
-	golang
-	web-search
+export ZSH_PLUGINS_LIST=("git"
+	"ansible"
+        "aws"
+	"dnf"
+	"fzf"
+	"git-auto-fetch"
+        "jira"
+	"systemd"
+	"terraform"
+	"z"
+	"golang"
+	"web-search"
+        "zsh-autosuggestions"
 	)
-
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -117,3 +154,35 @@ if [ -x "$(command -v exa)" ];then
 	alias ls="exa"
 	alias la="exa --long --all --group"
 fi
+
+for plugin in $ZSH_PLUGINS_LIST
+do	
+	# echo "$plugin"	
+        # source "$ZSH_PLUGINS_FOLDER"/"$plugin"/"$plugin".plugin.zsh"
+done
+
+    
+
+source $ZSH_PLUGINS_FOLDER/ansible/ansible.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/aws/aws.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/dnf/dnf.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/fzf/fzf.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/git-auto-fetch/git-auto-fetch.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/jira/jira.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/systemd/systemd.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/terraform/terraform.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/z/z.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/golang/golang.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/web-search/web-search.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH_PLUGINS_FOLDER/vim/vim.plugin.zsh
+source $ZSH_PLUGINS_FOLDER/zsh-completions/zsh-completions.plugin.zsh 
+source $ZSH_PLUGINS_FOLDER/git-prompt.zsh/git-prompt.zsh
+
+# git prompt for git-promt.zsh plugin
+PROMPT='%B%40<..<%~%b$(gitprompt)'
+
+#Prompt login
+# PROMPT+='%F{green}%n@%F{cyan}%m:%~ %f>> '
+PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f '
+
